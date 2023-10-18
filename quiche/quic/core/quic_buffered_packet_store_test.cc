@@ -54,7 +54,7 @@ class QuicBufferedPacketStoreVisitor
     last_expired_packet_queue_ = std::move(early_arrived_packets);
   }
 
-  // The packets queue for most recently expirect connection.
+  // The packets queue for most recently expired connection.
   BufferedPacketList last_expired_packet_queue_;
 };
 
@@ -146,7 +146,7 @@ TEST_F(QuicBufferedPacketStoreTest,
   // buffered.
   size_t num_packets = kDefaultMaxUndecryptablePackets + 1;
   QuicConnectionId connection_id = TestConnectionId(1);
-  // Arrived CHLO packet shouldn't affect how many non-CHLO pacekts store can
+  // Arrived CHLO packet shouldn't affect how many non-CHLO packets store can
   // keep.
   EXPECT_EQ(
       QuicBufferedPacketStore::SUCCESS,
@@ -303,7 +303,7 @@ TEST_F(QuicBufferedPacketStoreTest, PacketQueueExpiredBeforeDelivery) {
   // CHLO on connection 3 arrives 1ms later.
   clock_.AdvanceTime(QuicTime::Delta::FromMilliseconds(1));
   QuicConnectionId connection_id3 = TestConnectionId(3);
-  // Use different client address to differetiate packets from different
+  // Use different client address to differentiate packets from different
   // connections.
   QuicSocketAddress another_client_address(QuicIpAddress::Any4(), 255);
   store_.EnqueuePacket(connection_id3, false, packet_, self_address_,
@@ -363,7 +363,7 @@ TEST_F(QuicBufferedPacketStoreTest, SimpleDiscardPackets) {
   EXPECT_TRUE(store_.HasBufferedPackets(connection_id));
   EXPECT_FALSE(store_.HasChlosBuffered());
 
-  // Dicard the packets
+  // Discard the packets
   store_.DiscardPackets(connection_id);
 
   // No packets on connection 1 should remain in the store
@@ -391,7 +391,7 @@ TEST_F(QuicBufferedPacketStoreTest, DiscardWithCHLOs) {
   EXPECT_TRUE(store_.HasBufferedPackets(connection_id));
   EXPECT_TRUE(store_.HasChlosBuffered());
 
-  // Dicard the packets
+  // Discard the packets
   store_.DiscardPackets(connection_id);
 
   // No packets on connection 1 should remain in the store
